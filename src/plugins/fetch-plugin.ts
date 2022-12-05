@@ -12,6 +12,7 @@ export const fetchPlugin= (inputCode: string)=>{
         setup(build:esbuild.PluginBuild){
         build.onLoad({ filter: /.*/ }, async (args: any) => {
             console.log('onLoad', args);
+            
     
             if (args.path === 'index.js') {
               return {
@@ -24,9 +25,23 @@ export const fetchPlugin= (inputCode: string)=>{
             if(cachedResult) return cachedResult;
     
             const { data, request } = await axios.get(args.path);
+            const fileType = args.path.match(/.css$/) ? 'css' : 'jsx';
+
+        const escaped = data
+          .replace(/\n/g, '')
+          .replace(/"/g, '\\"')
+          .replace(/'/g, "\\'");
+        const contents =
+          fileType === 'css'
+            ? `
+            const style = document.createElement('style');
+            style.innerText = '${escaped}';
+            document.head.appendChild(style);
+          `
+            : data;
             const result:esbuild.OnLoadResult= {
               loader: 'jsx',
-              contents: data,
+              contents,
               resolveDir: new URL('./',request.responseURL).pathname
             };
             await fileCache.setItem(args.path, result);
