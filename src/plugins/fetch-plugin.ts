@@ -47,6 +47,19 @@ export const fetchPlugin= (inputCode: string)=>{
             await fileCache.setItem(args.path, result);
             return result;
           });
+
+        build.onLoad({ filter: /.*/ }, async (args: any) => {
+          const { data, request } = await axios.get(args.path);
+  
+          const result: esbuild.OnLoadResult = {
+            loader: 'jsx',
+            contents: data,
+            resolveDir: new URL('./', request.responseURL).pathname,
+          };
+          await fileCache.setItem(args.path, result);
+  
+          return result;
+        });
         }
     }
 }

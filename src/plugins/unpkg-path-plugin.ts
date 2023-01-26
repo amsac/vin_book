@@ -20,7 +20,14 @@ export const unpkgPathPlugin = () => {
           namespace: 'a',
           path: `https://unpkg.com/${args.path}`,
         };
-      });    
+      });   
+            // Handle main file of a module
+          build.onResolve({ filter: /.*/ }, async (args: any) => {
+            return {
+              namespace: 'a',
+              path: `https://unpkg.com/${args.path}`,
+            };
+          }); 
     },
   };
 };
