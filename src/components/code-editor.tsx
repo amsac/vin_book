@@ -23,8 +23,12 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
 
   //   monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
   // };
-  function handleEditorDidMount(editor: any, monaco: any) {
+  function handleEditorDidMount(editor: any, _monaco: any) {
     editorRef.current = editor; 
+  }
+  function handleEditorChange(_value: any, _event: any) {
+    // console.log("here is the current model value:", value);
+    onChange(editorRef.current.getValue())
   }
   const onFormatClick = () => {
     // get current value from editor
@@ -60,6 +64,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
         theme="vs-dark"
         language="javascript"
         height="500px"
+        onChange={handleEditorChange}
         options={{
           wordWrap: 'on',
           minimap: { enabled: false },
