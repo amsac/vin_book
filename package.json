@@ -2,6 +2,9 @@
   "name": "vin_book",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@monaco-editor/react": "^4.4.6",
