@@ -1,0 +1,13 @@
+
+.modal{
+    display: flex;
+    
+}
+.modal-card{
+    min-width: 70vw;    
+    min-height: 50vh;
+}
+
+.carousel .thumbs-wrapper {
+    display: none;
+}
